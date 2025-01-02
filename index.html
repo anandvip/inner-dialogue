@@ -7,32 +7,41 @@
     <style>
        body {
             font-family: sans-serif;
-             margin: 0;
-             display: flex;
-             flex-direction: column;
-            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure full viewport height */
         }
 
-        #header {
-            background-color: #f0f0f0;
-            padding: 15px;
-             text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+         #sign-in-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex: 1; /* Allow the container to grow and fill available space */
+            text-align: center;
+         }
+
+        #sign-in-container h1 {
+             margin-bottom: 20px;
+           }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
         }
         .hidden {
             display: none;
-        }
-
-        .app-container {
-           display: flex;
-           flex: 1; /* Allow the container to fill available space */
-        }
-        aside {
-            width: 20%; /* Adjusted to percentage for responsiveness */
-             background-color: #f0f0f0;
-              padding: 20px;
-               overflow-y: auto;
-              box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+         }
+       aside {
+            width: 250px;
+            background-color: #f0f0f0;
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         }
 
         aside h2 {
@@ -59,56 +68,55 @@
             background-color: #e0e0e0;
         }
 
-         main {
-           flex: 1; /* Main area takes up the rest of the space */
-           padding: 20px;
-         display: flex;
-           flex-direction: column;
-           overflow-y:auto;
-       }
+        main {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
 
         #journal-editor {
             margin-bottom: 20px;
         }
 
         textarea {
-           width: 98%;
+            width: 100%;
             height: 300px;
-           padding: 10px;
+            padding: 10px;
             margin-bottom: 10px;
             box-sizing: border-box;
-           border: 1px solid #ccc;
+            border: 1px solid #ccc;
         }
          #ai-prompt-section {
             display: flex;
-           flex-direction: column;
+             flex-direction: column;
             margin-bottom: 20px;
-       }
+        }
          #ai-prompt-section > * {
            margin-bottom: 5px;
-      }
+        }
 
          #ai-prompt-section input {
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
             margin-right: 10px;
-       }
+        }
         #generated-text {
-          white-space: pre-line;
-            padding: 10px;
-           border: 1px solid #eee;
-            margin-bottom: 10px;
+        white-space: pre-line;
+        padding: 10px;
+        border: 1px solid #eee;
+        margin-bottom: 10px;
         }
 
         .toast-container {
-           position: fixed;
-           top: 20px;
+            position: fixed;
+            top: 20px;
             right: 20px;
-           z-index: 1000;
+            z-index: 1000;
             display: flex;
-          flex-direction: column;
-           align-items: flex-end;
+            flex-direction: column;
+            align-items: flex-end;
         }
 
         .toast {
@@ -116,94 +124,65 @@
             color: white;
             padding: 10px 20px;
             margin-bottom: 5px;
-           border-radius: 4px;
-           opacity: 0;
+            border-radius: 4px;
+            opacity: 0;
             transition: opacity 0.3s ease-in-out;
         }
 
         .toast.show {
-           opacity: 1;
+            opacity: 1;
         }
          #user-profile {
-             text-align: center;
-             margin-bottom: 20px;
-         }
-
-        #user-profile img {
-           width: 50px;
-           height: 50px;
-           border-radius: 50%;
-             margin-bottom: 10px;
-        }
-        #sign-in-container {
-           display: flex;
-            flex-direction: column;
-           justify-content: center;
-           align-items: center;
-            flex: 1;
-            text-align: center;
+        text-align: center;
+        margin-bottom: 20px;
         }
 
-        #sign-in-container h1 {
-            margin-bottom: 20px;
-        }
-       @media screen and (max-width: 768px) {
-            .app-container {
-             flex-direction: column; /* Stack columns on smaller screens */
-             }
-           aside {
-             width: 100%; /* Occupy full width */
-         }
-       }
-       button {
-         padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-         margin-bottom: 10px;
-        }
+    #user-profile img {
+         width: 50px;
+        height: 50px;
+          border-radius: 50%;
+            margin-bottom: 10px;
+           }
     </style>
 </head>
 <body>
-    <div id="header">
-        <h1>Inner Dialogue</h1>
-     </div>
-    <div id="sign-in-container" class="hidden">
-         <button id="sign-in-button">Sign in with Google</button>
+
+<div id="sign-in-container">
+     <h1>Inner Dialogue</h1>
+    <button id="sign-in-button">Sign in with Google</button>
+</div>
+
+<aside class="hidden" id="journal-nav">
+    <div id="user-profile">
+      <img id="user-image" src="" alt="User Profile Image">
+     <h3 id="user-name"></h3>
+     <p id="user-email"></p>
     </div>
-    <div class="app-container hidden">
-        <aside class="hidden" id="journal-nav">
-            <div id="user-profile">
-                <img id="user-image" src="" alt="User Profile Image">
-                 <h3 id="user-name"></h3>
-                <p id="user-email"></p>
-            </div>
-        <h2 id="month-name">Month</h2>
-             <ul id="entry-list"></ul>
-            <button id="sign-out-button">Sign Out</button>
-        </aside>
-        <main  id="journal-main">
-            <div id="ai-prompt-section">
-                <label for="ai-keywords">Enter Keywords:</label>
-               <input type="text" id="ai-keywords" placeholder="e.g., happiness, growth, challenges" />
-                <select id="ai-provider">
-                    <option value="openai">OpenAI</option>
-                     <option value="mistral">Mistral AI</option>
-                    <option value="gemini">AI Studio by Google</option>
-               </select>
-                <button id="generate-prompt-button">Generate Prompt</button>
-                <div id="generated-text"></div>
-                <button id="copy-button">Copy Text</button>
-            </div>
-            <div id="journal-editor">
-             <textarea id="journal-text"></textarea>
-               <button id="save-button">Save Entry</button>
-           </div>
-      </main>
-   </div>
-    <div class="toast-container" id="toast-container"></div>
+
+    <h2 id="month-name">Month</h2>
+    <ul id="entry-list"></ul>
+    <button id="sign-out-button">Sign Out</button>
+</aside>
+<main class="hidden" id="journal-main">
+     <div id="ai-prompt-section">
+        <label for="ai-keywords">Enter Keywords:</label>
+        <input type="text" id="ai-keywords" placeholder="e.g., happiness, growth, challenges" />
+        <select id="ai-provider">
+        <option value="openai">OpenAI</option>
+        <option value="mistral">Mistral AI</option>
+        <option value="gemini">AI Studio by Google</option>
+        </select>
+        <button id="generate-prompt-button">Generate Prompt</button>
+       <div id="generated-text"></div>
+         <button id="copy-button">Copy Text</button>
+     </div>
+
+    <div id="journal-editor">
+        <textarea id="journal-text"></textarea>
+        <button id="save-button">Save Entry</button>
+    </div>
+</main>
+<div class="toast-container" id="toast-container"></div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -224,96 +203,98 @@
 
 
     const signInButton = document.getElementById('sign-in-button');
-   const signInContainer = document.getElementById('sign-in-container');
-   const journalNav = document.getElementById('journal-nav');
+    const signInContainer = document.getElementById('sign-in-container');
+    const journalNav = document.getElementById('journal-nav');
     const journalMain = document.getElementById('journal-main');
     const monthName = document.getElementById('month-name');
     const entryList = document.getElementById('entry-list');
-   const journalText = document.getElementById('journal-text');
+    const journalText = document.getElementById('journal-text');
     const saveButton = document.getElementById('save-button');
     const aiKeywordsInput = document.getElementById('ai-keywords');
     const generatePromptButton = document.getElementById('generate-prompt-button');
     const generatedTextDiv = document.getElementById('generated-text');
     const aiProviderSelect = document.getElementById('ai-provider');
-   const copyButton = document.getElementById('copy-button');
-   const toastContainer = document.getElementById('toast-container');
-  const userProfileImage = document.getElementById('user-image');
+    const copyButton = document.getElementById('copy-button');
+    const toastContainer = document.getElementById('toast-container');
+    const userProfileImage = document.getElementById('user-image');
     const userNameDisplay = document.getElementById('user-name');
     const userEmailDisplay = document.getElementById('user-email');
-    const signOutButton = document.getElementById('sign-out-button');
-    const appContainer = document.querySelector('.app-container');
-   let currentEntryId = null;
+     const signOutButton = document.getElementById('sign-out-button');
+
+    let currentEntryId = null;
 
    // UNSAFE: Store your api keys here.
     const API_KEYS = {
-        openai: 'YOUR_OPENAI_API_KEY',
-       mistral: 'YOUR_MISTRAL_API_KEY',
-        gemini: 'YOUR_GOOGLE_GEMINI_API_KEY'
+      openai: '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',
+      mistral: 'ic8ExdQksCSXrL4qo0sm9bdkwtKmDUCm',
+        gemini: 'AIzaSyBPO0PQ4PltzLQOSGJOxbqnyt-8xAG7ZpA'
     };
 
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-           signInContainer.classList.add('hidden');
-           appContainer.classList.remove('hidden');
-            journalNav.classList.remove('hidden');
+            signInContainer.classList.add('hidden');
+            document.querySelector('aside').style.display = 'block';
+            document.querySelector('main').style.display = 'flex';
             loadUserInfo(user);
             loadEntries();
         } else {
-           signInContainer.classList.remove('hidden');
-           appContainer.classList.add('hidden');
+             signInContainer.classList.remove('hidden');
+             document.querySelector('aside').style.display = 'none';
+             document.querySelector('main').style.display = 'none';
            userProfileImage.src = '';
             userNameDisplay.textContent = '';
-           userEmailDisplay.textContent = '';
-       }
+            userEmailDisplay.textContent = '';
+        }
     });
 
   async function loadUserInfo(user) {
-        if(user) {
-           userProfileImage.src = user.photoURL || '';
+     if(user) {
+          userProfileImage.src = user.photoURL || '';
             userNameDisplay.textContent = user.displayName;
-           userEmailDisplay.textContent = user.email;
-      }else{
-           const user = auth.currentUser;
-            if(user) {
-                userProfileImage.src = user.photoURL || '';
-              userNameDisplay.textContent = user.displayName;
-                userEmailDisplay.textContent = user.email;
-            }
+            userEmailDisplay.textContent = user.email;
+        }else{
+             const user = auth.currentUser;
+                if(user) {
+                   userProfileImage.src = user.photoURL || '';
+                    userNameDisplay.textContent = user.displayName;
+                    userEmailDisplay.textContent = user.email;
+                 }
         }
   }
    signOutButton.addEventListener('click', async () => {
-       try {
+      try {
              await signOut(auth);
              showToast("Signed out!");
 
         } catch (error) {
-            console.error('Error signing out:', error);
-            showToast("Error signing out!");
+           console.error('Error signing out:', error);
+             showToast("Error signing out!");
         }
     });
-   signInButton.addEventListener('click', async () => {
-      const provider = new GoogleAuthProvider();
-       try {
+    signInButton.addEventListener('click', async () => {
+        const provider = new GoogleAuthProvider();
+        try {
             await signInWithPopup(auth, provider);
         } catch (error) {
             console.error("Error signing in:", error);
         }
-   });
+    });
 
-   async function loadEntries() {
+    async function loadEntries() {
         const user = auth.currentUser;
 
         if (!user) {
             console.error("No user signed in.");
             return;
-       }
+        }
 
         const now = new Date();
         const year = now.getFullYear();
         const month = now.toLocaleString('default', { month: 'long' });
-       monthName.textContent = month;
+        monthName.textContent = month;
 
-       entryList.innerHTML = '';
+        entryList.innerHTML = '';
+
 
         const entriesRef = collection(db, 'users', user.uid, 'entries');
         const q = query(entriesRef, where("year", "==", year), where("month", "==", month), orderBy("week"));
@@ -321,205 +302,208 @@
 
         querySnapshot.forEach((doc) => {
             const entry = doc.data();
-           const li = document.createElement('li');
+            const li = document.createElement('li');
             li.textContent = `Week ${entry.week}`;
             li.dataset.entryId = doc.id;
             li.addEventListener('click', () => loadEntry(doc.id, entry.notes));
             entryList.appendChild(li);
 
-       });
+        });
 
-   }
+    }
 
-   async function loadEntry(entryId, entryNotes) {
+    async function loadEntry(entryId, entryNotes) {
         journalText.value = entryNotes;
-       currentEntryId = entryId;
-   }
+        currentEntryId = entryId;
+    }
 
-   saveButton.addEventListener('click', async () => {
-       const user = auth.currentUser;
-       if (!user) {
-           console.error("User not signed in");
+    saveButton.addEventListener('click', async () => {
+        const user = auth.currentUser;
+        if (!user) {
+            console.error("User not signed in");
             return;
         }
         const now = new Date();
-       const year = now.getFullYear();
-       const month = now.toLocaleString('default', { month: 'long' });
-       const week = getWeekNumber(now);
+        const year = now.getFullYear();
+        const month = now.toLocaleString('default', { month: 'long' });
+        const week = getWeekNumber(now);
         const notes = journalText.value;
 
         if (currentEntryId) {
-           const entryRef = doc(db, 'users', user.uid, 'entries', currentEntryId);
+            const entryRef = doc(db, 'users', user.uid, 'entries', currentEntryId);
             try {
                 await setDoc(entryRef, {
                     notes: notes,
                     year: year,
                     month: month,
-                   week: week,
+                    week: week,
                 }, { merge: true });
-               showToast("Entry updated");
+                showToast("Entry updated");
 
-           }
+            }
             catch (error) {
                 console.error("Error updating document:", error);
                 showToast("Error updating entry");
             }
-      } else {
+        } else {
             try {
-               const entryRef = collection(db, 'users', user.uid, 'entries');
+                const entryRef = collection(db, 'users', user.uid, 'entries');
                 await addDoc(entryRef, {
                     notes: notes,
-                   year: year,
+                    year: year,
                     month: month,
                     week: week,
                 });
                 showToast("New entry added");
             }
-           catch (error) {
+            catch (error) {
                 console.error("Error adding document:", error);
-               showToast("Error adding entry");
-           }
+                showToast("Error adding entry");
+            }
 
         }
         currentEntryId = null;
-       loadEntries();
-       journalText.value = "";
+        loadEntries();
+        journalText.value = "";
 
     });
 
+
     function getWeekNumber(d) {
-       d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
         d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
         const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
         const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
         return weekNo;
-   }
+    }
 
-   generatePromptButton.addEventListener('click', async () => {
+
+    generatePromptButton.addEventListener('click', async () => {
         const keywords = aiKeywordsInput.value;
         const selectedProvider = aiProviderSelect.value;
 
         if (!keywords) {
-           showToast("Please enter some keywords.");
-           return;
-        }
-       if(!API_KEYS[selectedProvider]) {
-           showToast("API key not found")
+            showToast("Please enter some keywords.");
             return;
-       }
+        }
+        if(!API_KEYS[selectedProvider]) {
+            showToast("API key not found")
+            return;
+        }
+
 
         try{
-          const generatedText = await generateAItext(keywords,selectedProvider,API_KEYS[selectedProvider]);
+            const generatedText = await generateAItext(keywords,selectedProvider,API_KEYS[selectedProvider]);
             generatedTextDiv.textContent = generatedText;
 
         }catch(error) {
-          console.error("Error generating text:",error);
+            console.error("Error generating text:",error);
             showToast("Error generating text");
-       }
+        }
 
-  });
+    });
 
-   async function generateAItext(keywords,provider,apiKey) {
+    async function generateAItext(keywords,provider,apiKey) {
 
         if(provider == 'openai')
-           return generateOpenAiText(keywords,apiKey);
-       if(provider == 'mistral')
-           return generateMistralText(keywords, apiKey);
+            return generateOpenAiText(keywords,apiKey);
+        if(provider == 'mistral')
+            return generateMistralText(keywords, apiKey);
         if (provider === 'gemini')
             return generateGeminiText(keywords, apiKey);
 
     }
 
-   async function generateOpenAiText(keywords, apiKey) {
+    async function generateOpenAiText(keywords, apiKey) {
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
-            method: "POST",
-            headers: {
+         method: "POST",
+           headers: {
                "Content-Type": "application/json",
-                Authorization: `Bearer ${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}`,
-          },
+                Authorization: `Bearer ${apiKey}`,
+            },
             body: JSON.stringify({
-                model: "gpt-3.5-turbo",
+               model: "gpt-3.5-turbo",
                 messages: [
-                   {
-                       role: "user",
-                        content: `Generate a first-person journal prompt based on these keywords: ${keywords}. Make the prompt thought provoking.`
+                 {
+                        role: "user",
+                     content: `Generate a first-person journal prompt based on these keywords: ${keywords}. Make the prompt thought provoking.`
                     },
                 ],
-           }),
-       });
+            }),
+        });
         const data = await response.json();
        if (!response.ok) {
             const error = data.error || { message: "Unknown error" };
-           throw new Error(`OpenAI API error: ${error.message}`);
+             throw new Error(`OpenAI API error: ${error.message}`);
         }
+      return data.choices[0].message.content;
+}
+
+
+  async function generateMistralText(keywords, apiKey) {
+        const response = await fetch("https://api.mistral.ai/v1/chat/completions", {
+          method: "POST",
+         headers: {
+             "Content-Type": "application/json",
+           Authorization: `Bearer ${apiKey}`,
+         },
+           body: JSON.stringify({
+             model: "mistral-tiny",
+           messages: [
+                {
+                  role: "user",
+                  content: `Generate a first-person journal prompt based on these keywords: ${keywords}. Make the prompt thought provoking.`,
+               },
+             ],
+          }),
+      });
+       const data = await response.json();
+      if (!response.ok) {
+       const error = data.error || { message: "Unknown error" };
+      throw new Error(`Mistral API error: ${error.message}`);
+     }
        return data.choices[0].message.content;
+
   }
 
-
- async function generateMistralText(keywords, apiKey) {
-        const response = await fetch("https://api.mistral.ai/v1/chat/completions", {
-           method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-               Authorization: `Bearer ${ic8ExdQksCSXrL4qo0sm9bdkwtKmDUCm}`,
-          },
-           body: JSON.stringify({
-                model: "mistral-tiny",
-                messages: [
-                  {
-                        role: "user",
-                       content: `Generate a first-person journal prompt based on these keywords: ${keywords}. Make the prompt thought provoking.`,
-                    },
-              ],
-            }),
-       });
-        const data = await response.json();
-        if (!response.ok) {
-          const error = data.error || { message: "Unknown error" };
-           throw new Error(`Mistral API error: ${error.message}`);
-        }
-        return data.choices[0].message.content;
-
-    }
-
    async function generateGeminiText(keywords, apiKey) {
-       const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${AIzaSyBPO0PQ4PltzLQOSGJOxbqnyt-8xAG7ZpA}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
 
         const response = await fetch(url, {
-            method: 'POST',
+           method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+              'Content-Type': 'application/json',
             },
              body: JSON.stringify({
-                   contents: [
-                     {
-                         parts: [
-                                {
-                                  text: `Generate a first-person journal prompt based on these keywords: ${keywords}. Make the prompt thought provoking.`
-                             }
-                           ]
-                       }
-                  ],
+                  contents: [
+                   {
+                       parts: [
+                           {
+                               text: `Generate a first-person journal prompt based on these keywords: ${keywords}. Make the prompt thought provoking.`
+                           }
+                       ]
+                     }
+                ],
              })
         });
-       const data = await response.json();
-        if (!response.ok) {
-           const error = data.error || { message: "Unknown error" };
+        const data = await response.json();
+       if (!response.ok) {
+             const error = data.error || { message: "Unknown error" };
              throw new Error(`Gemini API error: ${error.message}`);
          }
-        return data.candidates[0].content.parts[0].text;
-    }
+       return data.candidates[0].content.parts[0].text;
+ }
 
 
-   copyButton.addEventListener('click', async () => {
-       const text = generatedTextDiv.textContent;
-        if (!text) {
-           showToast("No text generated to copy!");
-            return;
-       }
+    copyButton.addEventListener('click', async () => {
+        const text = generatedTextDiv.textContent;
+         if (!text) {
+            showToast("No text generated to copy!");
+             return;
+          }
         try {
             await navigator.clipboard.writeText(text);
-            showToast("Text copied to clipboard!");
+           showToast("Text copied to clipboard!");
         } catch (err) {
             console.error('Failed to copy: ', err);
             showToast("Error copying text!");
@@ -528,18 +512,18 @@
 
     function showToast(message) {
         const toast = document.createElement('div');
-       toast.classList.add('toast');
-       toast.textContent = message;
+        toast.classList.add('toast');
+        toast.textContent = message;
         toastContainer.appendChild(toast);
         setTimeout(() => {
             toast.classList.add('show');
-           setTimeout(() => {
-                toast.classList.remove('show');
-           setTimeout(() => {
-               toastContainer.removeChild(toast);
+            setTimeout(() => {
+              toast.classList.remove('show');
+            setTimeout(() => {
+                toastContainer.removeChild(toast);
                 },300);
-           }, 2000);
-       }, 100);
+            }, 2000);
+        }, 100);
     }
 </script>
 </body>
