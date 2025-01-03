@@ -431,13 +431,13 @@
            return generateGeminiText(keywords, apiKey);
 
    }
-
+//OPEN AI
    async function generateOpenAiText(keywords, apiKey) {
        const response = await fetch("https://api.openai.com/v1/chat/completions", {
            method: "POST",
             headers: {
                 "Content-Type": "application/json",
-               Authorization: `Bearer ${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},
+               Authorization: `Bearer ${apiKey},
            body: JSON.stringify({
                 model: "gpt-3.5-turbo",
                 messages: [
@@ -456,6 +456,7 @@
         return data.choices[0].message.content;
    }
 
+//MISTRAL AI
 
    async function generateMistralText(keywords, apiKey) {
         const response = await fetch("https://api.mistral.ai/v1/chat/completions", {
@@ -482,7 +483,7 @@
        return data.choices[0].message.content;
 
    }
-
+//GEMINI
     async function generateGeminiText(keywords, apiKey) {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
 
