@@ -244,7 +244,7 @@
    const signOutButton = document.getElementById('sign-out-button');
     const appContainer = document.querySelector('.app-container');
    let currentEntryId = null;
-
+const prompt = `generate a first-person journal prompt based on these keywords: ${keywords}. Make the prompt thought provoking.`;
    // UNSAFE: Store your api keys here.
     const API_KEYS = {
       openai: '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',
@@ -443,7 +443,7 @@
                 messages: [
                    {
                         role: "user",
-                       content: ` generate a first-person journal prompt based on these keywords: ${keywords}. Make the prompt thought provoking.`
+                       content: prompt,
                     },
                 ],
             }),
@@ -470,7 +470,7 @@
                 messages: [
                     {
                         role: "user",
-                        content: ` generate a first-person journal prompt based on these keywords: ${keywords}. Make the prompt thought provoking.`,
+                        content: prompt,
                     },
                 ],
            }),
@@ -497,7 +497,7 @@
                     {
                         parts: [
                              {
-                                 text: ` generate a first-person journal prompt based on these keywords: ${keywords}. Make the prompt thought provoking.`
+                                 text: prompt,
                              }
                        ]
                    }
