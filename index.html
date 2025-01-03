@@ -244,7 +244,7 @@
    const signOutButton = document.getElementById('sign-out-button');
     const appContainer = document.querySelector('.app-container');
    let currentEntryId = null;
-const prompt = `generate a first-person journal prompt based on these keywords: ${keywords}. Make the prompt thought provoking.`;
+
    // UNSAFE: Store your api keys here.
     const API_KEYS = {
       openai: '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',
@@ -433,6 +433,7 @@ const prompt = `generate a first-person journal prompt based on these keywords: 
    }
 //OPEN AI
    async function generateOpenAiText(keywords, apiKey) {
+       const prompt = `generate a first-person journal prompt based on these keywords: ${keywords}. Make the prompt thought provoking.`;
        const response = await fetch("https://api.openai.com/v1/chat/completions", {
            method: "POST",
             headers: {
@@ -459,6 +460,7 @@ const prompt = `generate a first-person journal prompt based on these keywords: 
 //MISTRAL AI
 
    async function generateMistralText(keywords, apiKey) {
+   const prompt = `generate a first-person journal prompt based on these keywords: ${keywords}. Make the prompt thought provoking.`;
         const response = await fetch("https://api.mistral.ai/v1/chat/completions", {
             method: "POST",
            headers: {
@@ -486,7 +488,7 @@ const prompt = `generate a first-person journal prompt based on these keywords: 
 //GEMINI
     async function generateGeminiText(keywords, apiKey) {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
-
+       const prompt = `generate a first-person journal prompt based on these keywords: ${keywords}. Make the prompt thought provoking.`;
         const response = await fetch(url, {
             method: 'POST',
             headers: {
